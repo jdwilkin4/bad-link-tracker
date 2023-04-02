@@ -31,7 +31,6 @@ def get_broken_links(site):
                 
 
     if num_broken_img_links == 0:
-        print(f'No broken links for {site_page_title}')
         return
     else:
         print(f'{site_page_title} ===> {broken_links_list}')
