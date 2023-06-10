@@ -19,15 +19,16 @@ def get_broken_links(site):
         if not img_url.startswith("http"):
             img_url = urllib.parse.urljoin(page.url, img_url)
        
-        try:
-            img_url_status_code = requests.get(img_url).status_code
-        except ConnectionError:
-            num_broken_img_links = num_broken_img_links + 1
-            broken_links_list.append(img_url)
-        else:
-            if img_url_status_code != 200 and img_url_status_code != 408 and img_url_status_code != 403:
+        if not img_url.startswith("data:image"):
+            try:
+                img_url_status_code = requests.get(img_url).status_code
+            except ConnectionError:
                 num_broken_img_links = num_broken_img_links + 1
                 broken_links_list.append(img_url)
+            else:
+                if img_url_status_code != 200 and img_url_status_code != 408 and img_url_status_code != 403:
+                    num_broken_img_links = num_broken_img_links + 1
+                    broken_links_list.append(img_url)
                 
 
     if num_broken_img_links == 0:
